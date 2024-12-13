@@ -16,6 +16,7 @@ export interface AgentApiInterface {
   ): Promise<Either<number, CredentialsError>>;
   getStatus(options?: RequestInit): Promise<StatusReply>;
   getAgentVersion():Promise<string>;
+  getServiceUiUrl():Promise<string>;
 }
 
 export class AgentApi implements AgentApiInterface {
@@ -69,5 +70,14 @@ export class AgentApi implements AgentApiInterface {
     const response = await fetch(request);
     const statusReply = (await response.json()) as { version: string };
     return statusReply.version;
+  }
+  async getServiceUiUrl(): Promise<string> {
+    const request = new Request(this.configuration.basePath + "/url", {
+      method: "GET"
+    });
+
+    const response = await fetch(request);
+    const uiReply = (await response.json()) as { url: string };
+    return uiReply.url;
   }
 }
