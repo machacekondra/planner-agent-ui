@@ -225,9 +225,9 @@ export const useViewModel = (): LoginFormViewModelInterface => {
       },
       [agentApi, navigateTo]
     ),
-    handleReturnToAssistedMigration: useCallback(() => {
-      const assistedMigrationUrl = import.meta.env.ASSISTED_MIGRATION_URL || 'http://localhost:3000/migrate/wizard';
-      window.open(assistedMigrationUrl, '_blank', 'noopener,noreferrer');
+    handleReturnToAssistedMigration: useCallback(async () => {
+      const serviceUrl = await agentApi.getServiceUiUrl() || "http://localhost:3000/migrate/wizard";
+      window.open(serviceUrl, '_blank', 'noopener,noreferrer');
     }, []),
     handleChangeDataSharingAllowed: useCallback((checked)=>{
       console.log(checked);
